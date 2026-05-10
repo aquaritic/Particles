@@ -5,5 +5,27 @@ body {
 
 canvas {
     display: block;
+    margin-left: 220px;
 }
 
+html, body{
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+}
+
+#sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 220px;
+    height: 100vh;
+    background: white;
+    padding: 15px;
+    overflow-y: auto;
+    font-family: Times;
+    gap: 20px;
+    border-right: 2px solid #ccc;
+    display: flex;
+    flex-direction: column;
+}

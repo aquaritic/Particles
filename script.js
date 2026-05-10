@@ -104,7 +104,7 @@ function animation(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (mouse.down) {
-        for (let i =0; i < spawnValue; i++){
+        for (let i =0; i < spawnV; i++){
         particles.push(new Particle(mouse.x, mouse.y));
         }
     }

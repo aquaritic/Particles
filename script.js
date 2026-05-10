@@ -15,8 +15,38 @@ class Particle {
     this.color = "black";
     }
     update(){
+
+        this.vy += 0.5;
         this.x += this.vx;
         this.y += this.vy;
+
+        if (this.y = this.size > canvas.height) {
+            this.y = canvas.height - this.size;
+            this.vy = 0;
+        }
+
+        if (this.y + this.size < canvas.height) {
+            let below = particles.find(p =>
+                p.x === this.x && p.y === this.y + this.size
+            );
+        }
+
+        if(below) {
+            let downLeft = particles.find(p =>
+                p.x === this.x - this.size && p.y === this.y + this.size
+            );
+
+            let downRight = particles.find(p =>
+                p.x === this.x + this.size && p.y === this.y + this.size
+            );
+
+        }
+
+        if(!downLeft){
+            this.x -= this.size;
+        } else {
+            this.x += this.size;
+        }
     }
     draw(){
         ctx.fillStyle = this.color;

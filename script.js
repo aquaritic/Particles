@@ -3,7 +3,7 @@ const ctx = canvas.getContext("2d");
 const particles = [];
 
 canvas.width = window.innerWidth;
-canvas.height = canvas.innerHeight;
+canvas.height = window.innerHeight;
 
 class Particle {
     constructor(x, y){
@@ -20,32 +20,9 @@ class Particle {
         this.x += this.vx;
         this.y += this.vy;
 
-        if (this.y = this.size > canvas.height) {
+        if (this.y + this.size > canvas.height) {
             this.y = canvas.height - this.size;
             this.vy = 0;
-        }
-
-        if (this.y + this.size < canvas.height) {
-            let below = particles.find(p =>
-                p.x === this.x && p.y === this.y + this.size
-            );
-        }
-
-        if(below) {
-            let downLeft = particles.find(p =>
-                p.x === this.x - this.size && p.y === this.y + this.size
-            );
-
-            let downRight = particles.find(p =>
-                p.x === this.x + this.size && p.y === this.y + this.size
-            );
-
-        }
-
-        if(!downLeft){
-            this.x -= this.size;
-        } else {
-            this.x += this.size;
         }
     }
     draw(){
@@ -87,7 +64,7 @@ function animation(){
         p.draw();
     }
 
-    requestAnimationFrame(loop);
+    requestAnimationFrame(animation);
 }
 
 animation();

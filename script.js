@@ -56,7 +56,7 @@ class Particle {
     update(){
 
         this.vy += gravityV;
-        this.vx += windValue + (Math.random() - .5) * randomValue;
+        this.vx += windV + (Math.random() - .5) * randomValue;
         this.life--;
         this.x += this.vx;
         this.y += this.vy;

@@ -12,6 +12,8 @@ let spawnV = 3;
 let windV = 0;
 let opacityV = 1;
 let lifeV = 200;
+let shapeV = "circle";
+
 
 document.getElementById("gravity").oninput = e => {
     gravityV = parseFloat(e.target.value);
@@ -42,7 +44,14 @@ document.getElementById("life").oninput = e => {
     lifeV = parseInt(e.target.value);
 };
 
+document.getElementById("clear").onclick = () => {
+    particles = [];
+};
+
+shapeV.oninput = e => shapeV = e.target.value;
+
 class Particle {
+
     constructor(x, y){
     this.x = x;
     this.y = y;
@@ -53,10 +62,11 @@ class Particle {
     this.life = lifeV;
     this.opacity = opacityV;
     }
+
     update(){
 
         this.vy += gravityV;
-        this.vx += windV + (Math.random() - .5) * randomValue;
+        this.vx += windV;
         this.life--;
         this.x += this.vx;
         this.y += this.vy;
@@ -71,10 +81,25 @@ class Particle {
         }
 
     }
+
     draw(){
         ctx.globalAlpha = this.opacity;
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.size, this.size);
+        if (shapeV === "circle") {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI *2);
+            ctx.fill();
+        } else if (shapeV === "square"){
+            ctx.fillRect(this.x, this.y, this.size, this.size);
+        } else if (shapeV === "triangle"){
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y - this.size);
+            ctx.lineTo(this.x - this.size, this.y + this.size);
+            ctx.lineTo(this.x + this.size, this.y + this.size);
+            ctx.closePath();
+            ctx.fill();
+        }
+
         ctx.globalAlpha = 1;
     }
 };

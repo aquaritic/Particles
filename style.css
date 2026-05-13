@@ -29,3 +29,29 @@
     display: flex;
     flex-direction: column;
 }
+
+.control {
+    background: #f7f7f7;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.control label {
+    font-weight: bold;
+    font-family: times;
+}
+
+.control input[type="range"] {
+    width: 90%;
+}
+
+.control span {
+    font-size: 14px;
+    color: #333;
+    font-family: sans-serif;
+}

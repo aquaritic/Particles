@@ -4,21 +4,59 @@
     </head>
     <body id ="body">
         <div id="sidebar">
-            <label>Gravity<input type ="range" id="gravity" min="0" max="2" step=".1" value = ".5"></label>
-            <label>Size<input type="range" id="size" min="2" max="20" step="1" value = "5"></label>
-            <label>Color<input type="color" id="color" value="#000000"></label>
-            <label>Spawn Rate<input type="range" id ="spawn" min="1" max="20" step="1" value="3"></label>
-            <label>Wind<input type="range" id="wind" min="-2" max="1" step=".05" value="1"></label>
-            <label>Opacity<input type = "range" id = "opacity" min= ".1" max = "1" step=".05" value="1"></label>
-            <label>Lifetime<input type = "range" id = "life" min = "10" max = "300" step = "10" value = "200"></label>
-            <label>Shape
+            <div class = "control">
+                    <label>Gravity</label>
+                    <input type ="range" id="gravity" min="0" max="2" step=".1" value = ".5">
+                    <span id="gravityV">0.5</span>
+            </div>
+            <div class = "control">
+                    <label>Size</label>
+                    <input type="range" id="size" min="2" max="20" step="1" value = "5">
+                    <span id="sizeV">5</span>
+            </div>
+            <div class = "control">
+                    <label>Color</label>
+                    <input type = "range" id="r" min="0" max="255" value="0">
+                    <span id = redV>0</span>
+                    <input type = "range" id="r" min="0" max="255" value="0">
+                    <span id = greenV>0</span>
+
+                    <input type = "range" id="r" min="0" max="255" value="0">
+                    <span id = blueV>0</span>
+
+                    <div id="colorPreview" style="width: 40px; height: 40px; border-radius: 6px; border: 1px solid #333; background: rgb(0, 0, 0);"></div>
+            </div>
+            <div class = "control">
+                <label>Spawn Rate</label>
+                <input type="range" id ="spawn" min="1" max="20" step="1" value="3">
+                <span id="spawnV">3</span>
+            </div>
+            <div class = "control">
+                <label>Wind</label>
+                <input type="range" id="wind" min="-2" max="2" step=".05" value="0">
+                <span id = "windV">0</span>
+            </div>
+            <div class = "control">
+                <label>Opacity</label>
+                <input type = "range" id = "opacity" min= ".1" max = "1" step=".05" value="1">
+                <span id = "opacityV">1</span>
+            </div>
+            <div class = "control">
+                <label>Lifetime</label>
+                <input type = "range" id = "life" min = "10" max = "300" step = "10" value = "200">
+                <span id = "lifeV">200</span>
+            </div>
+            <div class = "control">
+                <label>Shape</label>
                 <select id="shape">
                     <option value="circle">Circle</option>
                     <option value="square">Square</option>
                     <option value="triangle">Triangle</option>
                 </select>
-            </label>
-            <button id="clear">Clear All</button>
+            </div>
+            <div class = "control">
+                <button id="clear">Clear All</button>
+            </div>
          </div>
         <canvas id = "canvas"></canvas>
         <script src = "script.js"></script>

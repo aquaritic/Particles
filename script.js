@@ -27,10 +27,6 @@ document.getElementById("size").oninput = e => {
     document.getElementById(sizeV).textContent = sizeV;
 };
 
-document.getElementById("color").oninput = e => {
-    colorV = e.target.value;
-};
-
 document.getElementById("spawn").oninput = e => {
     spawnV = parseInt(e.target.value);
     document.getElementById(spawnV).textContent = spawnV;
@@ -139,7 +135,7 @@ let mouse = {
 
 canvas.addEventListener("mousedown", e=> {
     mouse.down = true;
-    mouse.x = e.clientX;
+    mouse.x = e.clientX - 220;
     mouse.y = e.clientY;
 });
 
@@ -148,7 +144,7 @@ canvas.addEventListener("mouseup", () => {
 });
 
 canvas.addEventListener("mousemove", e=> {
-    mouse.x = e.clientX;
+    mouse.x = e.clientX - 220;
     mouse.y = e.clientY;
 });
 

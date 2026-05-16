@@ -73,6 +73,36 @@ document.getElementById("b").oninput = e =>{
     colorPreview();
 }
 
+document.getElementById("reset").onclick = () => {
+    gravityV = 0.5;
+    windV = 0;
+    spawnV = 3;
+    lifeV = 200;
+    redV = 0;
+    greenV = 0;
+    blueV = 0;
+    opacityV = 1;
+    sizeV = 5;
+    shapeV = "circle";
+
+    const set = (id, value) => {
+        document.getElementById(id).value = value;
+        document.getElementById(id + "V")?.textContent = value;
+    }
+
+    set("gravity", gravityV);
+    set("wind", windV);
+    set("spawn", spawnV);
+    set("life", lifeV);
+    set("r", redV);
+    set("g", greenV);
+    set("b", blueV);
+    set("opacity", opacityV);
+    set("size", sizeV);
+    document.getElementById("shape").value = "circle";
+    colorPreview();
+};
+
 class Particle {
 
     constructor(x, y){
@@ -154,10 +184,22 @@ function colorPreview(){
 }
 
 document.querySelectorAll(".section").forEach(section => {
+    section.classList.add("collapsed");
+
+    const arrow = section.querySelector(".arrow");
+    if (arrow) arrow.textContent = "▼";
+
     section.addEventListener("click", () => {
         section.classList.toggle("collapsed");
-    });
+        if (section.classList.contains("collapsed")){
+            arrow.textContent = "▼";
+        } else {
+            arrow.textContent = "▲";
+        }
+    })
 });
+
+
 
 function animation(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);

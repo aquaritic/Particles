@@ -163,10 +163,18 @@ let mouse = {
     down: false
 };
 
+function getCanvasX(e){
+    return e.clientX - canvas.getBoundingClientRect().left;
+}
+
+function getCanvasY(e){
+    return e.clientY - canvas.getBoundingClientRect().top;
+}
+
 canvas.addEventListener("mousedown", e=> {
     mouse.down = true;
-    mouse.x = e.clientX - 220;
-    mouse.y = e.clientY;
+    mouse.x = getCanvasX(e);
+    mouse.y = getCanvasY(e);
 });
 
 canvas.addEventListener("mouseup", () => {
@@ -174,8 +182,8 @@ canvas.addEventListener("mouseup", () => {
 });
 
 canvas.addEventListener("mousemove", e=> {
-    mouse.x = e.clientX - 220;
-    mouse.y = e.clientY;
+    mouse.x = getCanvasX(e);
+    mouse.y = getCanvasY(e);
 });
 
 function colorPreview(){
@@ -187,16 +195,12 @@ document.querySelectorAll(".section").forEach(section => {
     section.classList.add("collapsed");
 
     const arrow = section.querySelector(".arrow");
-    if (arrow) arrow.textContent = "▼";
+    arrow.textContent = "▲";
 
     section.addEventListener("click", () => {
         section.classList.toggle("collapsed");
-        if (section.classList.contains("collapsed")){
-            arrow.textContent = "▼";
-        } else {
-            arrow.textContent = "▲";
-        }
-    })
+        arrow.textContent = section.classList.contains("collapsed") ? "▲" : "▼";
+    });
 });
 
 

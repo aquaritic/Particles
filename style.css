@@ -1,6 +1,6 @@
 #body {
     margin: 0;
-    background: linear-gradient(135 deg, #f0e7d8, #d9cbb8)
+    background: linear-gradient(135deg, #f0e7d8, #d9cbb8)
 }
 
 #canvas {
@@ -46,7 +46,7 @@
 }
 
 .control:hover {
-    transform: scale (1.05);
+    transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
@@ -76,17 +76,36 @@ input[type="range"] {
 #title {
     text-align: center;
     font-family: times;
-    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 15px 0;
+    letter-spacing: 0.5px;
 }
 
 #canvas {
-    filter: drop-shadow(0 0 20px rgba (0, 0, 0, 0.15));
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.15));
 }
 
 .section {
+    text-align: center;
     font-family: Times;
     font-size: 14px;
     opacity: 0.75;
-    margin-top: 10px;
-    margin-bottom: -10px;
+    margin: 20px 0 5px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.section::after {
+    content: "";
+    display: block;
+    width: 60%;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.2);
+    margin: 6px auto 0 auto;
+}
+
+.section.collapsed + .control,
+.section.collapsed + .control ~ .control {
+    display: none;
 }

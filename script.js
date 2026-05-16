@@ -19,32 +19,32 @@ let blueV = 0;
 
 document.getElementById("gravity").oninput = e => {
     gravityV = parseFloat(e.target.value);
-    document.getElementById(gravityV).textContent = gravityV;
+    document.getElementById("gravityV").textContent = gravityV;
 };
 
 document.getElementById("size").oninput = e => {
     sizeV = parseInt(e.target.value);
-    document.getElementById(sizeV).textContent = sizeV;
+    document.getElementById("sizeV").textContent = sizeV;
 };
 
 document.getElementById("spawn").oninput = e => {
     spawnV = parseInt(e.target.value);
-    document.getElementById(spawnV).textContent = spawnV;
+    document.getElementById("spawnV").textContent = spawnV;
 };
 
 document.getElementById("wind").oninput = e => {
     windV = parseFloat(e.target.value);
-    document.getElementById(windV).textContent = windV;
+    document.getElementById("windV").textContent = windV;
 };
 
 document.getElementById("opacity").oninput = e => {
     opacityV = parseFloat(e.target.value);
-    document.getElementById(opacityV).textContent = opacityV;
+    document.getElementById("opacityV").textContent = opacityV;
 };
 
 document.getElementById("life").oninput = e => {
     lifeV = parseInt(e.target.value);
-    document.getElementById(lifeV).textContent = lifeV;
+    document.getElementById("lifeV").textContent = lifeV;
 };
 
 document.getElementById("clear").onclick = () => {
@@ -55,20 +55,20 @@ document.getElementById("shape").oninput = e => {
     shapeV = e.target.value;
 }
 
-document.getElementById("redV").oninput = e =>{
+document.getElementById("r").oninput = e =>{
     redV = parseInt(e.target.value);
     document.getElementById("redV").textContent = redV;
     colorPreview();
 }
 
-document.getElementById("greenV").oninput = e =>{
+document.getElementById("g").oninput = e =>{
     greenV = parseInt(e.target.value);
     document.getElementById("greenV").textContent = greenV;
     colorPreview();
 }
 
-document.getElementById("blueV").oninput = e =>{
-    blueValue = parseInt(e.target.value);
+document.getElementById("b").oninput = e =>{
+    blueV = parseInt(e.target.value);
     document.getElementById("blueV").textContent = blueV;
     colorPreview();
 }
@@ -152,6 +152,12 @@ function colorPreview(){
     document.getElementById("colorPreview").style.background =
     `rgb(${redV}, ${greenV}, ${blueV})`;
 }
+
+document.querySelectorAll(".section").forEach(section => {
+    section.addEventListener("click", () => {
+        section.classList.toggle("collapsed");
+    });
+});
 
 function animation(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);

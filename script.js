@@ -2,7 +2,55 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 let particles = [];
 
-canvas.width = window.innerWidth;
+const particleTypes = {
+
+    default: {
+        init(p) {},
+        update(p) {},
+        draw(p) {}
+    },
+
+    fire: {
+        init(p) {
+            p.vx += (Math.random() - 0.5) * 1.2;
+            p.vy -= Math.random() *1.5;
+            p.color = `rgb(${255}, ${80+ Math.random()* 100}, 0)`;
+        },
+        update(p) {
+            p.size *= .975;
+            p.opacity -= 0.025
+        },
+        draw(p) {}
+    },
+
+    smoke: {
+        init(p) {
+            p.vx += (Math.random() - 0.5) * 0.3;
+            p.vy -= Math.random * .5;
+            p.color = `rgb(80, 80, 80)`
+        },
+        update(p){
+            p.size *= 1.01
+            p.opacity -= 0.005
+        },
+        draw(p){}
+    },
+
+    snow: {
+        init(p) {
+            p.vx = (Math.random() - .5) * .5;
+            p.vy = Math.random() * .5;
+            p.color = `rgb(255,255,255)`;
+        },
+        update(p){
+            p.vx += Math.sin(p.y * .01) * .02;
+        },
+        draw(p) {}
+    }
+    
+};
+
+canvas.width = window.innerWidth - 220;
 canvas.height = window.innerHeight;
 
 let gravityV = .5;
@@ -114,6 +162,8 @@ class Particle {
     this.color = `rgb(${redV}, ${greenV}, ${blueV})`;
     this.life = lifeV;
     this.opacity = opacityV;
+    const t = document.getElementById("type)").value;
+    particleTypes[t].init(this);
     }
 
     update(){
@@ -123,6 +173,9 @@ class Particle {
         this.life--;
         this.x += this.vx;
         this.y += this.vy;
+
+        const t = document.getElementById("type").value;
+        particleTypes[t].update(this);
 
         if (this.y + this.size > canvas.height) {
             this.y = canvas.height - this.size;
@@ -136,6 +189,9 @@ class Particle {
     }
 
     draw(){
+        const t = document.getElementById("type").value;
+        particleTypes[t].draw(this);
+
         ctx.globalAlpha = this.opacity;
         ctx.fillStyle = this.color;
         if (shapeV === "circle") {

@@ -26,7 +26,7 @@ const particleTypes = {
     smoke: {
         init(p) {
             p.vx += (Math.random() - 0.5) * 0.3;
-            p.vy -= Math.random * .5;
+            p.vy -= Math.random() * .5;
             p.color = `rgb(80, 80, 80)`
         },
         update(p){
@@ -133,18 +133,20 @@ document.getElementById("reset").onclick = () => {
     sizeV = 5;
     shapeV = "circle";
 
-    const set = (id, value) => {
+    const set = (id, value, labelId) => {
         document.getElementById(id).value = value;
-        document.getElementById(id + "V")?.textContent = value;
-    }
+        if(labelId){
+            document.getElementById(labeId).textContent = value;
+        }
+    };
 
     set("gravity", gravityV);
     set("wind", windV);
     set("spawn", spawnV);
     set("life", lifeV);
-    set("r", redV);
-    set("g", greenV);
-    set("b", blueV);
+    set("r", redV, "redV");
+    set("g", greenV, "greenV");
+    set("b", blueV, "blueV");
     set("opacity", opacityV);
     set("size", sizeV);
     document.getElementById("shape").value = "circle";
@@ -162,7 +164,7 @@ class Particle {
     this.color = `rgb(${redV}, ${greenV}, ${blueV})`;
     this.life = lifeV;
     this.opacity = opacityV;
-    const t = document.getElementById("type)").value;
+    const t = document.getElementById("type").value;
     particleTypes[t].init(this);
     }
 

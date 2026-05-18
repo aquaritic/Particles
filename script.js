@@ -1,6 +1,18 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 let particles = [];
+const cell = 4;
+let columns = 0;
+let rows = 0;
+
+function Grid(){
+    columns = Math.floor(canvas.width / cell);
+    rows = Math.floor(canvas.height / cell);
+    grid = Array.from({length: rows}, () => Array(columns).fill(null));
+}
+
+let grid = [];
+Grid();
 
 const particleTypes = {
 
@@ -46,6 +58,37 @@ const particleTypes = {
             p.vx += Math.sin(p.y * .01) * .02;
         },
         draw(p) {}
+    },
+
+    bubble: {
+        init(p){
+            p.vy = -(Math.random() *.5 +.5);
+            p.vx = (Math.random() - .5) * .25;
+            p.color = `rgba(${150 + Math.random()*50}, ${180 + Math.random()*50}, 255, ${p.opacity})`;
+            p.opacity *= .5;
+        },
+        update(p){
+            p.vx += Math.sin(p.y * .05) * .02;
+            p.vy += p.vy;
+            p.x += p.vx;
+            p.size *= 1.005
+            if (p.life < 40){
+                p.opacity -= .03;
+            }
+        },
+        draw(p){
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI *2);
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.opacity;
+            ctx.fill();
+            ctx.globalAlpha = p.opacity * .05
+            ctx.beginPath();
+            ctx.arc(p.x - p.size *.3, p.y - p.size * .3, p.size * .3, 0, Math.PI *2);
+            ctx.fillStyle = "white";
+            ctx.fill();
+            ctx.globalAlpha = 1;
+        }
     }
     
 };
@@ -158,8 +201,6 @@ class Particle {
     constructor(x, y){
     this.x = x;
     this.y = y;
-    this.vx = 0;
-    this.vy = 0;
     this.size = sizeV;
     this.color = `rgb(${redV}, ${greenV}, ${blueV})`;
     this.life = lifeV;
@@ -170,24 +211,34 @@ class Particle {
 
     update(){
 
-        this.vy += gravityV;
-        this.vx += windV;
-        this.life--;
-        this.x += this.vx;
-        this.y += this.vy;
+        if(grid[this.gridY] && grid[this.gridY][this.gridX] === this){
+            grid[this.gridY][this.gridX] = null;
+        }
+
+        if(this.gridY + 1 < rows && !grid[this.gridY +1][this.gridX]){
+            this.gridY++;
+        } else if (this.gridY + 1 < rows && this.gridX - 1 >= 0 && !grid[this.gridY +1][this.gridX -1]){
+            this.gridY++
+            this.gridX--;
+        } else if (this.gridY + 1 <rows && this.gridX +1 < columns && !grid[this.gridY+1][this.gridX+1]){
+            this.gridY++;
+            this.gridX++;
+        }
+
+        this.x = this.gridX * cell;
+        this.y = this.gridY * cell;
+        grid[this.gridY][this.gridX] = this;
 
         const t = document.getElementById("type").value;
         particleTypes[t].update(this);
-
-        if (this.y + this.size > canvas.height) {
-            this.y = canvas.height - this.size;
-            this.vy = 0;
-        }
 
         if (this.life <= 0){
             this.opacity -= .02;
         }
 
+        if (this.gridY!== undefined){
+            grid[this.gridY][this.gridX] = null;
+        }
     }
 
     draw(){
@@ -212,6 +263,8 @@ class Particle {
         }
 
         ctx.globalAlpha = 1;
+        this.gridX = Math.floor(this.x/cell);
+        this.gridY = Math.floor(this.y/cell);
     }
 };
 

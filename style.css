@@ -32,10 +32,11 @@
     flex-direction: column;
     backdrop-filter: blur(12px);
     background: #A07856;
+    box-sizing: border-box;
 }
 
 .control {
-    background: #f7f7f7;
+    background: #612e15;
     padding: 12px;
     border-radius: 10px;
     border: 1px solid #ddd;
@@ -125,12 +126,4 @@ input[type="range"] {
     height: 1px;
     background: rgba(0, 0, 0, 0.2);
     margin: 6px auto 0 auto;
-}
-
-.section.collapsed + .control, .section.collapsed + .control ~ .control {
-    display: none;
-}
-
-.section collapsed + button, .section collapsed + button ~ button {
-    display: none;
 }

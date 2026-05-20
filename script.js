@@ -117,7 +117,7 @@ const particleTypes = {
             const direction = Math.random() < .5 ? -1 : 1;
             const dx = p.gridX + direction;
 
-            if (dx >= 0 && dx < columns && !grid[p.gridY],[dx]) {
+            if (dx >= 0 && dx < columns && !grid[p.gridY][dx]) {
                 p.gridX = dx;
                 return;
             }
@@ -219,7 +219,7 @@ document.getElementById("reset").onclick = () => {
     const set = (id, value, labelId) => {
         document.getElementById(id).value = value;
         if(labelId){
-            document.getElementById(labeId).textContent = value;
+            document.getElementById(labelId).textContent = value;
         }
     };
 
@@ -239,10 +239,10 @@ document.getElementById("reset").onclick = () => {
 class Particle {
 
     constructor(x, y){
-    this.gridX = Math.floor(this.x/ cell);
-    this.gridY = Math.floor(this.y/cell);
     this.x = x;
     this.y = y;
+    this.gridX = Math.floor(this.x/ cell);
+    this.gridY = Math.floor(this.y/cell);
     this.size = sizeV;
     this.color = `rgb(${redV}, ${greenV}, ${blueV})`;
     this.life = lifeV;
@@ -278,10 +278,6 @@ class Particle {
 
         if (this.life <= 0){
             this.opacity -= .02;
-        }
-
-        if (this.gridY!== undefined){
-            grid[this.gridY][this.gridX] = null;
         }
     }
 
@@ -357,7 +353,28 @@ document.querySelectorAll(".section").forEach(section => {
     });
 });
 
+document.querySelectorAll(".section").forEach(section => {
+    let next = section.nextElementSibling;
 
+    while(next && !next.classList.contains(".section")){
+        next.style.display = "none";
+        next = next.nextElementSibling;
+    }
+
+    section.classList.add("collapsed");
+    const arrow = section.querySelector(".arrow");
+    arrow.textContent = "▲";
+    
+    section.addEventListener("click", () => {
+        section.classList.toggle("collapsed");
+        arrow.textContent = section.classList.contains("collapsed") ? "▲" : "▼";
+        let next = section.nextElementSibling;
+        while (next && !next.classList.contains("section")){
+            next.style.display = section.classList.contains("collapsed") ? "none" : "flex";
+            next = next.nextElementSibling;
+        }
+    });
+});
 
 function animation(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);

@@ -13,6 +13,7 @@ function Grid(){
 
 let grid = [];
 Grid();
+let blackHole = null;
 
 const particleTypes = {
 
@@ -65,12 +66,13 @@ const particleTypes = {
             p.vy = -(Math.random() *.5 +.5);
             p.vx = (Math.random() - .5) * .25;
             p.color = `rgba(${150 + Math.random()*50}, ${180 + Math.random()*50}, 255, ${p.opacity})`;
-            p.opacity *= .5;
+            p.opacity = Math.min(p.opacity * .5, .6);
         },
         update(p){
             p.vx += Math.sin(p.y * .05) * .02;
-            p.vy += p.vy;
+            p.vy -= .01;
             p.x += p.vx;
+            p.y += p.vy;
             p.size *= 1.005
             if (p.life < 40){
                 p.opacity -= .03;
@@ -88,6 +90,40 @@ const particleTypes = {
             ctx.fillStyle = "white";
             ctx.fill();
             ctx.globalAlpha = 1;
+        }
+    },
+
+    water: {
+        init(p){
+            p.color = `rgb(0, 120, 255)`;
+            p.opacity = .9;
+        },
+        update(p){
+            if(p.gridY + 1 < rows && !grid[p.gridY +1][p.gridX]){
+                p.gridY++;
+                return;
+            }
+            if (p.gridY + 1 < rows && p.gridX - 1 >= 0 && !grid[p.gridY +1][p.gridX -1]){
+                p.gridY++
+                p.gridX--;
+                return;
+            }
+            if (p.gridY + 1 <rows && p.gridX +1 < columns && !grid[p.gridY+1][p.gridX+1]){
+                p.gridY++;
+                p.gridX++;
+                return;
+            }
+
+            const direction = Math.random() < .5 ? -1 : 1;
+            const dx = p.gridX + direction;
+
+            if (dx >= 0 && dx < columns && !grid[p.gridY],[dx]) {
+                p.gridX = dx;
+                return;
+            }
+        },
+        draw(p){
+            
         }
     }
     
@@ -139,7 +175,11 @@ document.getElementById("life").oninput = e => {
 };
 
 document.getElementById("clear").onclick = () => {
-    particles = [];
+    blackHole = {
+        x: canvas.width /2,
+        y: canvas.height /2,
+        size: 20
+    };
 };
 
 document.getElementById("shape").oninput = e => {
@@ -199,6 +239,8 @@ document.getElementById("reset").onclick = () => {
 class Particle {
 
     constructor(x, y){
+    this.gridX = Math.floor(this.x/ cell);
+    this.gridY = Math.floor(this.y/cell);
     this.x = x;
     this.y = y;
     this.size = sizeV;
@@ -210,6 +252,8 @@ class Particle {
     }
 
     update(){
+        this.gridX = Math.floor(this.x/cell);
+        this.gridY = Math.floor(this.y/cell);
 
         if(grid[this.gridY] && grid[this.gridY][this.gridX] === this){
             grid[this.gridY][this.gridX] = null;
@@ -263,8 +307,7 @@ class Particle {
         }
 
         ctx.globalAlpha = 1;
-        this.gridX = Math.floor(this.x/cell);
-        this.gridY = Math.floor(this.y/cell);
+        
     }
 };
 
@@ -318,6 +361,12 @@ document.querySelectorAll(".section").forEach(section => {
 
 function animation(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (blackHole) {
+        ctx.beginPath();
+        ctx.arc(blackHole.x, blackHole.y, blackHole.size, 0, Math.PI * 2);
+        ctx.fillStyle = "black";
+        ctx.fill();
+    }
 
     if (mouse.down) {
         for (let i =0; i < spawnV; i++){
@@ -326,6 +375,16 @@ function animation(){
     }
 
     for (let p of particles) {
+        if(blackHole){
+            let bx = blackHole.x - p.x;
+            let by = blackHole.y - p.y;
+            let distance = Math.hypot(bx, by);
+            p.x += bx / distance*3;
+            p.y += by / distance*3;
+            if(distance < blackHole.size) {
+                p.opacity = 0;
+            }
+        }
         p.update();
         p.draw();
     }
@@ -334,6 +393,10 @@ function animation(){
         if (particles[i].opacity <= 0){
             particles.splice(i, 1);
         }
+    }
+
+    if(blackHole && particles.length === 0){
+        blackHole = null;
     }
 
     requestAnimationFrame(animation);

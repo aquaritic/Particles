@@ -1,6 +1,6 @@
 #body {
     margin: 0;
-    background: linear-gradient(135deg, #f0e7d8, #d9cbb8)
+    background: linear-gradient(135deg, #f0e7d8, #d9cbb8);
 }
 
 #canvas {
@@ -25,12 +25,13 @@
     padding-top: 25px;
     overflow-y: auto;
     font-family: Times;
+    color: #d9cbb8;
     gap: 20px;
     border-right: 2px solid #ccc;
     display: flex;
     flex-direction: column;
     backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.6);
+    background: #A07856;
 }
 
 .control {
@@ -126,7 +127,10 @@ input[type="range"] {
     margin: 6px auto 0 auto;
 }
 
-.section.collapsed + .control,
-.section.collapsed + .control ~ .control {
+.section.collapsed + .control, .section.collapsed + .control ~ .control {
+    display: none;
+}
+
+.section collapsed + button, .section collapsed + button ~ button {
     display: none;
 }
